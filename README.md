@@ -1,13 +1,31 @@
 # Author Extraction
 
-Monorepo skeleton for a FastAPI backend powering a React frontend. Designed for GitHub deployment.
+Monorepo for an author-extraction prototype: FastAPI handles PDF ingestion + metadata parsing while a React/Vite SPA consumes the API, renders author tables, and exports CSV/Excel. The repo ships docker files for each service plus a `docker-compose.yml` that also starts a Grobid container.
 
-## Structure
+## Layout
 
-- `backend/` – FastAPI service with a stub author extraction endpoint.
-- `frontend/` – React + Vite SPA that hits the backend API.
+- `backend/` – FastAPI server with Grobid/Gemini wiring.
+- `frontend/` – React UI built with Vite and served through nginx (with proxies for `/process-pdf`, `/health`, `/models`).
+- `docker-compose.yml` – grobid, backend, and frontend services.
 
-## Getting started
+## Environment
+
+1. Copy `.env.example` to `.env` (root of the repo) and set `GEMINI_API_KEY` so the backend can talk to Gemini.
+2. Grobid connection defaults to `http://grobid:8070` inside Docker; override `GROBID_CONFIG_PATH` if you need a custom file.
+
+## Running with Docker Compose
+
+```bash
+docker compose up --build
+```
+
+- Grobid listens on `8070` (reused by the backend).
+- Backend (FastAPI) exposes `http://localhost:8000`.
+- Frontend (nginx + Vite build) is reachable at `http://localhost:5173`.
+
+Use `docker compose logs -f backend` if the backend fails to process PDFs.
+
+## Running locally (optional)
 
 ### Backend
 
@@ -18,6 +36,8 @@ pip install -r backend/requirements.txt
 uvicorn backend.app.main:app --reload
 ```
 
+Make sure `.env` with `GEMINI_API_KEY` is present before hitting `/process-pdf`.
+
 ### Frontend
 
 ```bash
@@ -26,12 +46,14 @@ npm install
 npm run dev
 ```
 
-### Development flow
+The dev server proxies `/process-pdf`, `/health`, and `/models` to `http://127.0.0.1:8000`.
 
-- Iterate on `backend/app/main.py` for API logic.
-- Extend `frontend/src/App.tsx` to consume the API.
+## Development flow
+
+- Update `backend/app/main.py` and related modules when changing the ingestion pipeline.
+- Evolve `frontend/src/App.tsx` for richer UI, exports, and modal interactions.
 
 ## Deploying on GitHub
 
-- Push both `backend/` and `frontend/` directories.
-- Add GitHub Actions workflows (not included yet) for lint/test/publish if needed.
+- Push backend and frontend directories plus the docker assets.
+- Add workflows as needed for lint/test/build (not included yet).
