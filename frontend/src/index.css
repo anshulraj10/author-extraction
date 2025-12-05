@@ -1,68 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 :root {
+  color: #0f172a;
+  background-color: #eff4ff;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color-scheme: light;
-  background-color: #f7f7fb;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(37, 99, 235, 0.25), transparent 45%),
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.2), transparent 35%),
+    #e2e8f0;
+  color: #0f172a;
 }
 
-.app-shell {
-  max-width: 720px;
+.page-shell {
+  max-width: 80vw;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 3rem clamp(1rem, 1vw, 3rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-header h1 {
+.hero-card,
+.form-card,
+.results-card {
+  background: white;
+  border-radius: 1.25rem;
+  padding: clamp(1.5rem, 1vw, 2rem);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.1);
+}
+
+.hero-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.hero-card h1 {
+  margin: 0.3rem 0;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+}
+
+.hero-card p {
   margin: 0;
-  font-size: 2rem;
+  color: #475467;
 }
 
-form {
-  margin-top: 2rem;
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: #2563eb;
+}
+
+.ghost-button,
+.primary-button,
+.secondary-button {
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ghost-button {
+  background: transparent;
+  border: 1px solid #cbd5f5;
+  color: #0f172a;
+}
+
+.ghost-button:hover,
+.primary-button:hover,
+.secondary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white;
+}
+
+.secondary-button {
+  background: #f1f5f9;
+  color: #0f172a;
+  min-width: 140px;
+}
+
+.form-card form {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  font: inherit;
-  resize: vertical;
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-button {
-  align-self: flex-start;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 0.65rem 1.25rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font: inherit;
+label {
+  font-weight: 600;
+  color: #0f172a;
 }
 
-button:disabled {
-  opacity: 0.7;
-  cursor: wait;
-}
-
-section {
-  background: white;
-  padding: 1rem;
+input[type="file"] {
   border-radius: 0.75rem;
-  border: 1px solid #e5e7eb;
+  padding: 0.75rem;
+  border: 1px dashed #cbd5f5;
+  background: #f8fafc;
+  cursor: pointer;
 }
 
-.error-message {
-  color: #b91c1c;
+select {
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #cbd5f5;
+  background: #fff;
+  font: inherit;
+}
+
+.field-error {
+  color: #dc2626;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.status-message {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.results-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.results-header h2 {
+  margin: 0;
+}
+
+.export-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem;
+  background: #f8fafc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.75rem;
+}
+
+th {
+  font-weight: 600;
+  color: #475467;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+tr:nth-child(even) {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 10;
+}
+
+.modal {
+  background: white;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+}
+
+.modal.modal-wide {
+  max-width: 640px;
+}
+
+.modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal dl {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.modal dt {
+  font-weight: 600;
+  color: #475467;
+}
+
+.modal dd {
+  margin: 0;
+  color: #0f172a;
+}
+
+.health-timestamp {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: #475467;
+}
+
+.health-services {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.health-service {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+}
+
+.service-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.service-status {
+  margin: 0.35rem 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.service-status.success {
+  color: #15803d;
+}
+
+.service-status.error {
+  color: #dc2626;
+}
+
+.service-message {
+  margin: 0;
+  color: #475467;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .hero-card {
+    flex-direction: column;
+  }
+
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .export-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
