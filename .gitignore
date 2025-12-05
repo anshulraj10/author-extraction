@@ -8,3 +8,4 @@ node_modules/
 /backend/__pycache__/
 /backend/app/cache/*
 .env
+*.DS_Store
